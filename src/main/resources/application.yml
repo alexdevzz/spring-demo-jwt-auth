@@ -1,16 +1,29 @@
 spring:
   application:
     name: demo-jwt-auth
+
+  jackson:
+    time-zone: UTC
+    default-property-inclusion: non_null        # Return non null filed
+    serialization:
+      indent-output: true                       # Indent the JSON for best readability
+    property-naming-strategy: SNAKE_CASE        # Converts property names to snake_case (LastName -> last_name)
+
+
   datasource:
-    url: jdbc:postgresql://localhost:9003/jwtauth_db
-    username: postgres
+    url: jdbc:postgresql://localhost:9009/jwtdb
+    username: root
     password: springpg123*
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+
+logging:
+  level:
+    org.hibernate.sql: debug
+
+server:
+  port: 8089
