@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:14.18-bookworm
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: springpg123*
+      POSTGRES_DB: jwtauth_db
+    ports:
+      - "9003:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
