@@ -33,3 +33,7 @@ app:
   # Debug mode: Set to true to display stack traces and technical details in error responses
   # IMPORTANT: Change to false in production
   debug: true
+  jwt:
+    # value has to be type of java.time.Duration (22h, 22m, 22s, 22d, ...)
+    token-expiration: 24h
+    secret-key: 92c0cc8ff9058226660127995ebc09a71e374719e9b5b4bc932b431734caccff468ff336dccf2ea6bab947c50113701a63c0867cb851dc3e3fc049226fa4953ae8

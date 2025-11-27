@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,11 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-    // FIX: move to .env file after tutorial for security ...
-    private final String SECRET_KEY = "92c0cc8ff9058226660127995ebc09a71e374719e9b5b4bc932b431734caccff468ff336dccf2ea6bab947c50113701a63c0867cb851dc3e3fc049226fa4953ae8";
+    @Value("${app.jwt.secret-key}")
+    private String SECRET_KEY;
 
-    private final Duration TOKEN_EXPIRATION = Duration.ofHours(24);
+    @Value("${app.jwt.token-expiration:24}")
+    private Duration TOKEN_EXPIRATION;
 
     public String getToken(UserDetails user) {
         return getToken(new HashMap<>(), user);
