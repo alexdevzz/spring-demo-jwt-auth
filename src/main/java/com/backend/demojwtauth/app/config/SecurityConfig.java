@@ -1,5 +1,6 @@
 package com.backend.demojwtauth.app.config;
 
+import com.backend.demojwtauth.app.common.exception.FilterExceptionHandler;
 import com.backend.demojwtauth.app.jwt.JwtAuthenticationFiler;
 import com.backend.demojwtauth.app.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 
 
 @Configuration
@@ -26,6 +28,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFiler jwtAuthenticationFiler;
     private final UserRepository userRepository;
+    private final FilterExceptionHandler filterExceptionHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -47,17 +50,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http
-                // deshabilitar csrf
+                // disable csrf
                 .csrf(csrf -> csrf.disable())
-                // establecer que rutas están protegidas y cuáles no
+                // set protected routes and public routes
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated()
                 )
-                // deshabilitar sesiones
+                // disable sessions
                 .sessionManagement(sessionManager -> sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // añadir jwtAuthenticationFilter antes de UsernamePasswordAuthenticationFilter
+                .addFilterBefore(filterExceptionHandler, SecurityContextHolderFilter.class)
                 .addFilterBefore(jwtAuthenticationFiler, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
