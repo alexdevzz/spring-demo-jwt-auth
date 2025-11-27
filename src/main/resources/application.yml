@@ -27,3 +27,9 @@ logging:
 
 server:
   port: 8089
+
+# application configuration
+app:
+  # Debug mode: Set to true to display stack traces and technical details in error responses
+  # IMPORTANT: Change to false in production
+  debug: true

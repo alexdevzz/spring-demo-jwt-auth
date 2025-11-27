@@ -1,4 +1,4 @@
-package com.backend.demojwtauth.app.auth;
+package com.backend.demojwtauth.app.auth.dto;
 
 import lombok.*;
 
